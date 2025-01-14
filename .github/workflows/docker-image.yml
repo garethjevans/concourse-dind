@@ -21,6 +21,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build the Docker image
-        run: docker build -t garethjevans/concourse-dind:latest
+        run: docker build -t garethjevans/concourse-dind:latest .
       - name: Push the Docker image
         run: docker push garethjevans/concourse-dind:latest
