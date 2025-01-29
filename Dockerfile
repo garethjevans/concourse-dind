@@ -20,6 +20,25 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
   && unzip -d /opt/gradle /tmp/gradle-${GRADLE_VERSION}-bin.zip \
   && ln -s /opt/gradle/gradle-$GRADLE_VERSION/bin/gradle /usr/local/bin/gradle
 
+ENV YQ_VERSION=4.44.2
+# yq
+RUN \
+  download_url="$( \
+   curl \
+    --silent \
+    --location \
+    "https://api.github.com/repos/mikefarah/yq/releases/tags/v${YQ_VERSION}" | \
+      jq -r ".assets[] | select(.name == \"yq_linux_amd64\") | .url" \
+  )" && \
+  curl \
+    --silent \
+    --location \
+    --header "Accept: application/octet-stream" \
+    --output /usr/local/bin/yq \
+    "$download_url" && \
+  chmod +x /usr/local/bin/yq && \
+  yq -v
+
 RUN gradle --version
 
 WORKDIR /shared
