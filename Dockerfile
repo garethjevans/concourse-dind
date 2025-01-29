@@ -6,7 +6,7 @@ ENV DOCKER_CHANNEL=stable \
   DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
-  && apt-get -y install bash wget curl unzip iptables ca-certificates make net-tools iproute2 pigz openjdk-21-jdk \
+  && apt-get -y install bash wget curl unzip iptables ca-certificates git make net-tools iproute2 pigz openjdk-21-jdk \
   && curl -fL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" | tar zx \
   && mv /docker/* /bin/ \
   && chmod +x /bin/docker* \
