@@ -39,6 +39,24 @@ RUN \
   chmod +x /usr/local/bin/yq && \
   yq -v
 
+ENV YTT_VERSION=0.50.0
+RUN \
+  download_url="$( \
+   curl \
+    --silent \
+    --location \
+    "https://api.github.com/repos/carvel-dev/ytt/releases/tags/v${YTT_VERSION}" | \
+      jq -r ".assets[] | select (.name | contains(\"linux-amd64\")) | .url" \
+  )" && \
+  curl \
+    --silent \
+    --location \
+    --header "Accept: application/octet-stream" \
+    --output /usr/local/bin/ytt \
+    "$download_url" && \
+  chmod +x /usr/local/bin/ytt && \
+  ytt --version
+
 RUN gradle --version
 
 WORKDIR /shared
